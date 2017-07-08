@@ -1,12 +1,19 @@
 // ==UserScript==
 // @name         Comment Review Queue
 // @namespace    http://tampermonkey.net/
-// @version      0.1.2
+// @version      0.1.3
 // @description  Review recent comments posted on the site.
 // @author       Aurora0001
 // @match        https://*.stackexchange.com/review
+// @match        https://stackoverflow.com/review
+// @match        https://meta.stackoverflow.com/review
+// @match        https://*.superuser.com/review
+// @match        https://*.serverfault.com/review
+// @match        https://*.askubuntu.com/review
+// @match        https://*.stackapps.com/review
+// @match        https://*.mathoverflow.net/review
 // @downloadURL  https://github.com/TheIoTCrowd/CommentReviewQueue/raw/master/commentreview.user.js
-// @updateURL  https://github.com/TheIoTCrowd/CommentReviewQueue/raw/master/commentreview.user.js
+// @updateURL    https://github.com/TheIoTCrowd/CommentReviewQueue/raw/master/commentreview.user.js
 // @grant        none
 // ==/UserScript==
 
@@ -39,7 +46,7 @@
         // Add our own review items in
         var recentCommentsList = document.createElement("div");
         // Gets sitename (e.g. cseducators, iot, etc.)
-        var siteName = location.host.match(/([a-z]*)(\.meta)?/)[0];
+        var siteName = location.host.match(/([a-z]*)(\.meta|\.stackoverflow|\.superuser|\.serverfault|\.askubuntu|\.mathoverflow|\.stackapps)?/)[0];
         $.get("https://api.stackexchange.com/2.2/comments?pagesize="+COMMENT_COUNT+"&order=desc&sort=creation&site="+siteName+"&filter=!40nvjI4KbrMGSBJNR", function(data) {
             var ignoredComments = loadIgnoredComments();
             data.items.forEach(function(item) {
