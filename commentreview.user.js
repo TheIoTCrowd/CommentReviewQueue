@@ -37,7 +37,7 @@
         // Add our own review items in
         var recentCommentsList = document.createElement("div");
         // Gets sitename (e.g. cseducators, iot, etc.)
-        var siteName = location.host.match(/([a-z]*)/)[0];
+        var siteName = location.host.match(/([a-z]*)(\.meta)?/)[0];
         $.get("https://api.stackexchange.com/2.2/comments?pagesize="+COMMENT_COUNT+"&order=desc&sort=creation&site="+siteName+"&filter=!40nvjI4KbrMGSBJNR", function(data) {
             var ignoredComments = loadIgnoredComments();
             data.items.forEach(function(item) {
