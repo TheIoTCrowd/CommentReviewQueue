@@ -1,10 +1,12 @@
 // ==UserScript==
 // @name         Comment Review Queue
 // @namespace    http://tampermonkey.net/
-// @version      0.1.1
+// @version      0.1.2
 // @description  Review recent comments posted on the site.
 // @author       Aurora0001
 // @match        https://*.stackexchange.com/review
+// @downloadURL  https://github.com/TheIoTCrowd/CommentReviewQueue/raw/master/commentreview.user.js
+// @updateURL  https://github.com/TheIoTCrowd/CommentReviewQueue/raw/master/commentreview.user.js
 // @grant        none
 // ==/UserScript==
 
