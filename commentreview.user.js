@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name         Comment Review Queue
-// @namespace    http://tampermonkey.net/
-// @version      0.1.3
+// @namespace    https://github.com/TheIoTCrowd/CommentReviewQueue
+// @homepage     https://github.com/TheIoTCrowd/CommentReviewQueue
+// @version      0.1.4
 // @description  Review recent comments posted on the site.
 // @author       Aurora0001
 // @match        https://*.stackexchange.com/review
@@ -51,7 +52,7 @@
             var ignoredComments = loadIgnoredComments();
             data.items.forEach(function(item) {
                 // If ignored, skip this comment
-                if (ignoredComments.indexOf(item.comment_id.toString()) !== -1) {
+                if (item.owner.user_type === "moderator" || ignoredComments.indexOf(item.comment_id.toString()) !== -1) {
                     return;
                 }
 
