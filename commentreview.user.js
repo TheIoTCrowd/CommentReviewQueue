@@ -2,7 +2,7 @@
 // @name         Comment Review Queue
 // @namespace    https://github.com/TheIoTCrowd/CommentReviewQueue
 // @homepage     https://github.com/TheIoTCrowd/CommentReviewQueue
-// @version      0.2.0
+// @version      0.2.1
 // @description  Review recent comments posted on the site.
 // @author       Aurora0001
 // @match        https://*.stackexchange.com/*
@@ -44,7 +44,7 @@
     function updateNewCommentsCounter() {
         var UPDATE_TIME = 60 * 30 * 1000; // 30 minutes
         var lastFetch = new Date(localStorage.getItem("lastCommentFetch"));
-        if (new Date() > new Date(lastFetch + UPDATE_TIME)) {
+        if (new Date() > new Date(lastFetch.getTime() + UPDATE_TIME)) {
             $.get("https://api.stackexchange.com/2.2/comments?pagesize=1&order=desc&sort=creation&site="+siteName+"&filter=!9jPV9tT2s", function(data) {
                 localStorage.setItem("lastCommentFetch", new Date().toString());
                 if (data.items[0].comment_id > parseInt(localStorage.getItem("lastCommentId") || 0)) {
