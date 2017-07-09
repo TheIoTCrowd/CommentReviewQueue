@@ -2,7 +2,7 @@
 // @name         Comment Review Queue
 // @namespace    https://github.com/TheIoTCrowd/CommentReviewQueue
 // @homepage     https://github.com/TheIoTCrowd/CommentReviewQueue
-// @version      0.2.1
+// @version      0.2.2
 // @description  Review recent comments posted on the site.
 // @author       Aurora0001
 // @match        https://*.stackexchange.com/*
@@ -42,10 +42,14 @@
     }
 
     function updateNewCommentsCounter() {
-        var UPDATE_TIME = 60 * 30 * 1000; // 30 minutes
+        if (localStorage.getItem("shouldCheck") !== "true") {
+            return;
+        }
+        var UPDATE_TIME = 60 * 45 * 1000; // 45 minutes
         var lastFetch = new Date(localStorage.getItem("lastCommentFetch"));
         if (new Date() > new Date(lastFetch.getTime() + UPDATE_TIME)) {
             $.get("https://api.stackexchange.com/2.2/comments?pagesize=1&order=desc&sort=creation&site="+siteName+"&filter=!9jPV9tT2s", function(data) {
+                console.log("Quota Remaining for API Requests: " + data.quota_remaining);
                 localStorage.setItem("lastCommentFetch", new Date().toString());
                 if (data.items[0].comment_id > parseInt(localStorage.getItem("lastCommentId") || 0)) {
                     localStorage.setItem("commentsNotSeen", "true");
@@ -108,10 +112,21 @@ Review, flag or delete recent comments
 </div>
 <br class="cbt">`
         $("#mainbar").append(commentReview);
+        var checkBox = document.createElement("input");
+        checkBox.setAttribute("type", "checkbox");
+        checkBox.onclick = function(data) {
+            localStorage.setItem("shouldCheck", document.getElementById("checkBox").checked.toString());
+        };
+        checkBox.checked = localStorage.getItem("shouldCheck") === "true" || false;
+        checkBox.id = "checkBox";
+        $("#mainbar").append(checkBox);
+        $("#mainbar").append("<span>Check for new comments and modify review icon</span>");
     }
 
     updateNewCommentsCounter();
     if (localStorage.getItem("commentsNotSeen") == "true") {
         $('a[title="Review queues - help improve the site"]').text("review (comments)");
     }
+    
+    
 })();
